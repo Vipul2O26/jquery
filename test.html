@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>comments</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <div class="container mt-5">
+      <div class="card">
+        <div class="card-title text-center fs-4">Add your comments</div>
+        <div class="card-body">
+          <form action="" method="post" id="formId">
+            <div class="row g-4">
+              <div class="col-12 col-md-6">
+                <label for="name" class="form-label">Name</label>
+                <input
+                  type="text"
+                  name="name"
+                  id="name"
+                  class="form-control border border-info"
+                />
+                <small class="text-danger invalid-feedback" id="nameInput"
+                  >name is missing</small
+                >
+              </div>
+
+              <div class="col-12 col-md-6">
+                <label for="email" class="form-label">Email</label>
+                <input
+                  type="email"
+                  name="email"
+                  id="email"
+                  class="form-control border border-info"
+                />
+                <small class="form-text text-danger invalid-feedback"
+                  >your email is not valid</small
+                >
+              </div>
+
+              <div class="col-12">
+                <label for="comment" class="form-label">comment here</label>
+                <input
+                  type="text"
+                  name="comment"
+                  id="comment"
+                  class="form-control border border-info"
+                />
+                <small class="text-danger invalid-feedback" id="commentInput"
+                  >comment should be not empty</small
+                >
+              </div>
+
+              <div class="col-12 text-center">
+                <input
+                  type="submit"
+                  value="submit"
+                  class="btn btn-warning"
+                  id="submit"
+                />
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="mt-3">
+        <div class="card">
+          <div class="card-title fs-5">comment from users</div>
+          <div class="comment"></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function checkName() {
+        let userName = $("#name").val();
+        let name = document.getElementById("name");
+        //console.log(name.value);
+
+        // console.log(userName.length);
+
+        name.addEventListener("blur", () => {
+          if (userName.length === "") {
+            $("#nameInput").show();
+            name.classList.add("is-invalid");
+            return false;
+          } else if (userName.length < 3 || userName.length > 10) {
+            $("#nameInput").show();
+            $("#nameInput").html("name must be between 3 to 10");
+            name.classList.add("is-invalid");
+            $("#name").removeClass("border-info").addClass("border-danger");
+            return false;
+          } else {
+            $("#nameInput").hide();
+            name.classList.remove("is-invalid");
+            $("#name")
+              .removeClass("border-info")
+              .removeClass("border-danger")
+              .addClass("border-success");
+          }
+        });
+      }
+
+      function checkEmail() {
+        const email = document.getElementById("email");
+        email.addEventListener("blur", () => {
+          let regex =
+            /^([_\-\.0-9a-zA-Z]+)@([_\-\.0-9a-zA-Z]+)\.([a-zA-Z]{2,5})$/;
+
+          let s = email.value;
+          if (regex.test(s)) {
+            email.classList.remove("is-invalid");
+            $("#email")
+              .removeClass("border-danger")
+              .removeClass("border-info")
+              .addClass("border-success");
+          } else {
+            email.classList.add("is-invalid");
+            $("#email").removeClass("border-info").addClass("border-danger");
+          }
+        });
+      }
+
+      function checkComment() {
+        let userComment = $("#comment").val();
+        let comment = document.getElementById("comment");
+
+        console.log(userComment.length);
+        // console.log(userComment);
+        // console.log(comment.value);
+
+        comment.addEventListener("blur", () => {
+          if (userComment.length < 0) {
+            $("#commentInput").show();
+            comment.classList.add("is-invalid");
+            $("#comment").removeClass("border-info").addClass("border-danger");
+            return false;
+          } else {
+            $("#commentInput").hide();
+            comment.classList.remove("is-invalid");
+            $("#comment")
+              .removeClass("border-info")
+              .removeClass("border-danger")
+              .addClass("border-success");
+          }
+        });
+      }
+
+      $(document).ready(function () {
+        $("#submit").click(function (event) {
+          event.preventDefault();
+        });
+
+        let name = $("#name").keyup(function () {
+          checkName();
+        });
+        let email = $("#email").keyup(function () {
+          checkEmail();
+        });
+        let comment = $("#comment").keyup(function () {
+          checkComment();
+        });
+      });
+    </script>
+  </body>
+</html>
